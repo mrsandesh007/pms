@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from projects.models import Project
 
 User = get_user_model()
 
@@ -21,10 +22,11 @@ PRIORITY_CHOICES =[
 
 ]
 
-class Project(models.Model):
+class Task(models.Model):
     id             = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    owner          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects', default=1)
+    owner          = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks", default=1)
     name           = models.CharField(max_length=100)
+    project        = models.ForeignKey(Project,on_delete=models.CASCADE, related_name="tasks")
     description    = models.TextField(blank=True, null=True)
     status         = models.CharField(max_length=20, choices=STATUS_CHOICES, default="To Do")
     priority       = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="Medium")
@@ -58,7 +60,7 @@ class Project(models.Model):
 
 
     @property
-    def project_progress(self):
+    def task_progress(self):
         progress_dict = {
             'To Do'        : 0,
             'In Progress'  : 50,
@@ -67,8 +69,8 @@ class Project(models.Model):
         return progress_dict.get(self.status, 0)
     
 
-    def project_progress_color(self):
-        progress = self.project_progress
+    def task_progress_color(self):
+        progress = self.task_progress
         if progress == 100:
             color = "success"
         elif progress == 50:

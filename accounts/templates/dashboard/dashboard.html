@@ -106,6 +106,8 @@
                     <thead>
                     <tr>
                       <th>Name</th>
+                      <th>Start Date</th>
+                      <th>Due Date</th>
                       <th>Status</th>
                       <th>Priority</th>
                     </tr>
@@ -115,6 +117,8 @@
                       {% for projects in latest_projects  %}
                     <tr>
                       <td><a href="./pages/examples/project-detail.html">{{ projects.name }}</a></td>
+                      <td>{{ projects.start_date }}</td>
+                      <td>{{ projects.days_until_due }}</td>
                       <td>{{ projects.status }}</td>
                       <td><span class="badge badge-{{ projects.priority_color }}">{{ projects.priority }}</span></td>
                     </tr>
@@ -141,41 +145,18 @@
                       <strong>Goal Completion</strong>
                     </p>
 
-                    <div class="progress-group">
-                      Add Products to Cart
-                      <span class="float-right"><b>160</b>/200</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: 80%"></div>
+
+                    {% for projects in latest_projects %}
+                      <div class="progress-group">
+                        {{ projects.name }}
+                        <span class="float-right"><b>{{ projects.project_progress }}</b>/100%</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-{{projects.project_progress_color}}" style="width: {{projects.project_progress}}%"></div>
+                        </div>
                       </div>
-                    </div>
+                    {% endfor %}
                     <!-- /.progress-group -->
 
-                    <div class="progress-group">
-                      Complete Purchase
-                      <span class="float-right"><b>310</b>/400</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width: 75%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      <span class="progress-text">Visit Premium Page</span>
-                      <span class="float-right"><b>480</b>/800</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: 60%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      Send Inquiries
-                      <span class="float-right"><b>250</b>/500</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                      </div>
-                    </div>
-                    <!-- /.progress-group -->
                   </div>
                   <!-- /.col -->
                 </div>
@@ -224,51 +205,31 @@
               <div class="card-body p-0">
                 <div class="table-responsive">
                   <table class="table m-0">
+
                     <thead>
                     <tr>
-                      <th>Order ID</th>
-                      <th>Item</th>
+                      <th>Name</th>
+                      <th>Start Date</th>
+                      <th>Due Date</th>
                       <th>Status</th>
-                      <th>Popularity</th>
+                      <th>Priority</th>
                     </tr>
                     </thead>
+
                     <tbody>
+                      {% for task in latest_tasks %}
                     <tr>
-                      <td><a href="./pages/examples/task-detail.html">OR9842</a></td>
-                      <td>Call of Duty IV</td>
-                      <td><span class="badge badge-success">Shipped</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="./pages/examples/task-detail.html">OR1848</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-warning">Pending</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="./pages/examples/task-detail.html">OR7429</a></td>
-                      <td>iPhone 6 Plus</td>
-                      <td><span class="badge badge-danger">Delivered</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><a href="./pages/examples/task-detail.html">OR7429</a></td>
-                      <td>Samsung Smart TV</td>
-                      <td><span class="badge badge-info">Processing</span></td>
-                      <td>
-                        <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                      </td>
-                    </tr>               
-                 
-                  
+                      <td><a href="./pages/examples/task-detail.html">{{ task.name }}</a></td>
+                      <td>{{ task.start_date }}</td>
+                      <td>{{ task.days_until_due }}</td>
+                      <td>{{ task.status }}</td>
+                      <td><span class="badge badge-{{ task.priority_color }}">{{ task.priority }}</span></td>
+                    </tr> 
+                    {% endfor %}                               
                     </tbody>
+
                   </table>
+                  
                 </div>
                 <!-- /.table-responsive -->
               </div>
@@ -285,43 +246,21 @@
                   <!-- /.col -->
                   <div class="col-md-4">
                     <p class="text-center">
-                      <strong>Goal Completion</strong>
+                      <strong>Task Completion</strong>
                     </p>
 
-                    <div class="progress-group">
-                      Add Products to Cart
-                      <span class="float-right"><b>160</b>/200</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: 80%"></div>
-                      </div>
-                    </div>
-                    <!-- /.progress-group -->
 
-                    <div class="progress-group">
-                      Complete Purchase
-                      <span class="float-right"><b>310</b>/400</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width: 75%"></div>
+                    {% for task in latest_tasks %}
+                      <div class="progress-group">
+                        {{ task.name }}
+                        <span class="float-right"><b>{{ task.task_progress }}</b>/100%</span>
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-{{task.task_progress_color}}" style="width: {{task.task_progress}}%"></div>
+                        </div>
                       </div>
-                    </div>
+                    {% endfor %}
 
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      <span class="progress-text">Visit Premium Page</span>
-                      <span class="float-right"><b>480</b>/800</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: 60%"></div>
-                      </div>
-                    </div>
-
-                    <!-- /.progress-group -->
-                    <div class="progress-group">
-                      Send Inquiries
-                      <span class="float-right"><b>250</b>/500</span>
-                      <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                      </div>
-                    </div>
+                    
                     <!-- /.progress-group -->
                   </div>
                   <!-- /.col -->
