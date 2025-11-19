@@ -302,46 +302,38 @@
                   <!-- /.card-header -->
                   <div class="card-body p-0">
                     <ul class="users-list clearfix">
+
+                      {% for member in latest_members %}
+
+                      <li>
+                        <img src="{{ member.profile_picture_url }}" alt="User Image">
+                        <a class="users-list-name" href="#">{{ member.full_name }}</a>
+                        <span class="users-list-date">{{ member.date_joined }}</span>
+                      </li>
+
+                      {% endfor %}
+
+
+
+                      {% comment %} <li>
+                        <img src="{% static 'dist/img/user1-128x128.jpg' %}" alt="User Image">
+                        <a class="users-list-name" href="#">Alexander Pierce</a>
+                        <span class="users-list-date">Today</span>
+                      </li>
+
+
                       <li>
                         <img src="{% static 'dist/img/user1-128x128.jpg' %}" alt="User Image">
                         <a class="users-list-name" href="#">Alexander Pierce</a>
                         <span class="users-list-date">Today</span>
                       </li>
+
                       <li>
                         <img src="{% static 'dist/img/user8-128x128.jpg' %}" alt="User Image">
                         <a class="users-list-name" href="#">Norman</a>
                         <span class="users-list-date">Yesterday</span>
-                      </li>
-                      <li>
-                        <img src="" alt="User Image">
-                        <a class="use{% static 'dist/img/user7-128x128.jpg' %}rs-list-name" href="#">Jane</a>
-                        <span class="users-list-date">12 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user6-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">John</a>
-                        <span class="users-list-date">12 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user2-160x160.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Alexander</a>
-                        <span class="users-list-date">13 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user5-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Sarah</a>
-                        <span class="users-list-date">14 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user4-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Nora</a>
-                        <span class="users-list-date">15 Jan</span>
-                      </li>
-                      <li>
-                        <img src="dist/img/user3-128x128.jpg" alt="User Image">
-                        <a class="users-list-name" href="#">Nadia</a>
-                        <span class="users-list-date">15 Jan</span>
-                      </li>
+                      </li> {% endcomment %}
+
                     </ul>
                     <!-- /.users-list -->
                   </div>
@@ -362,7 +354,7 @@
                     <h3 class="card-title">Notifications</h3>
 
                     <div class="card-tools">
-                      <span title="3 New Messages" class="badge badge-warning">3</span>
+                      <span title="{{notification_count}} New Notification" class="badge badge-warning">{{notification_count}}</span>
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                       </button>
@@ -378,32 +370,20 @@
                     <div class="direct-chat-messages">
 
                       <!-- notifications -->
+                      {% for notification in latest_notifications %}
                       <div class="direct-chat-msg">
                         <div class="direct-chat-infos clearfix">                        
-                          <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                          <span class="direct-chat-timestamp float-right">{{ notification.notification_time_formatted }}</span>
                         </div>
                         <!-- /.notification-infos -->
-                        <img class="direct-chat-img" src="{% static './dist/img/AdminLTELogo.png' %}" alt="message user image">
+                        <img class="direct-chat-img" src="{{ notification.sender.profile.profile_picture_url }}" alt="message user image">
                         <!-- /.notification-img -->
                         <div class="direct-chat-text">
-                          Is this template really for free? That's unbelievable!
+                          {{ notification.message }}
                         </div>
                       </div> 
+                      {% endfor %}
                          <!--end of first notification  -->
-
-                         <!-- notifications -->
-                      <div class="direct-chat-msg">
-                        <div class="direct-chat-infos clearfix">                        
-                          <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                        </div>
-                        <!-- /.notification-infos -->
-                        <img class="direct-chat-img" src="{% static './dist/img/AdminLTELogo.png' %}" alt="message user image">
-                        <!-- /.notification-img -->
-                        <div class="direct-chat-text">
-                          Is this template really for free? That's unbelievable!
-                        </div>
-                      </div> 
-                         <!--end of second notification  -->
 
                     </div>
                     <!--/.direct-chat-messages-->
