@@ -8,13 +8,13 @@
         <div class="row">
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-project-diagram"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">CPU Traffic</span>
+                <span class="info-box-text">Projects</span>
                 <span class="info-box-number">
-                  10
-                  <small>%</small>
+                  {{ project_count }}
+                  
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -24,11 +24,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-tasks"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">41,410</span>
+                <span class="info-box-text">Tasks</span>
+                <span class="info-box-number">{{ tasks_count }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -41,11 +41,11 @@
 
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-users"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Sales</span>
-                <span class="info-box-number">760</span>
+                <span class="info-box-text">Teams</span>
+                <span class="info-box-number">{{ team_count }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -54,11 +54,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">New Members</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-text">All Members</span>
+                <span class="info-box-number">{{members_count}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -106,7 +106,7 @@
                     <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Start Date</th>
+                      <th>Team</th>
                       <th>Due Date</th>
                       <th>Status</th>
                       <th>Priority</th>
@@ -117,7 +117,7 @@
                       {% for projects in latest_projects  %}
                     <tr>
                       <td><a href="./pages/examples/project-detail.html">{{ projects.name }}</a></td>
-                      <td>{{ projects.start_date }}</td>
+                      <td>{{ projects.team.name }}</td>
                       <td>{{ projects.days_until_due }}</td>
                       <td>{{ projects.status }}</td>
                       <td><span class="badge badge-{{ projects.priority_color }}">{{ projects.priority }}</span></td>
@@ -209,7 +209,7 @@
                     <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Start Date</th>
+                      <th>Team</th>
                       <th>Due Date</th>
                       <th>Status</th>
                       <th>Priority</th>
@@ -220,7 +220,7 @@
                       {% for task in latest_tasks %}
                     <tr>
                       <td><a href="./pages/examples/task-detail.html">{{ task.name }}</a></td>
-                      <td>{{ task.start_date }}</td>
+                      <td>{{ task.project.team.name }}</td>
                       <td>{{ task.days_until_due }}</td>
                       <td>{{ task.status }}</td>
                       <td><span class="badge badge-{{ task.priority_color }}">{{ task.priority }}</span></td>
@@ -376,7 +376,7 @@
                           <span class="direct-chat-timestamp float-right">{{ notification.notification_time_formatted }}</span>
                         </div>
                         <!-- /.notification-infos -->
-                        <img class="direct-chat-img" src="{{ notification.sender.profile.profile_picture_url }}" alt="message user image">
+                        <img class="direct-chat-img" src="{{ notification.sender.profile.profile_picture_url }}" title="{{ notification.sender.username }}" alt="message user image">
                         <!-- /.notification-img -->
                         <div class="direct-chat-text">
                           {{ notification.message }}

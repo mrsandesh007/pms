@@ -11,6 +11,8 @@ urlpatterns = [
     path('projects/', include('projects.urls', namespace='projects')),
     path('tasks/', include('tasks.urls', namespace='tasks')),
     path('notification/', include('notification.urls', namespace='notification')),
+    path('teams/', include('teams.urls', namespace='teams')),
+
 
 
 

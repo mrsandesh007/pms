@@ -7,7 +7,7 @@ from django.utils import timezone
 
 class NotificationManager(models.Manager):
     def for_user(self, user):
-        return self.filter(recepient=user)
+        return self.filter(receiver=user)
     
 
     def unread_notification(self, user):

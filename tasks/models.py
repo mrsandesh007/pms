@@ -18,9 +18,24 @@ PRIORITY_CHOICES =[
     ('Low', 'Low'),
     ('Medium', 'Medium'),
     ('High', 'High'),
-
-
 ]
+
+class TaskQueryset(models.QuerySet):
+    def active_tasks(self):
+        return self.filter(is_active=True)
+    
+    def due_expired_tasks(self):
+        return self.filter(due_date__gte=timezone.now())
+
+
+class TaskManager(models.Manager):
+    def get_queryset(self):
+        return TaskQueryset(self.model, using=self._db)
+    
+
+    def all(self):
+        return self.get_queryset().active_tasks().due_expired_tasks()
+
 
 class Task(models.Model):
     id             = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -35,6 +50,8 @@ class Task(models.Model):
     is_active      = models.BooleanField(default=True)
     created_at     = models.DateTimeField(auto_now_add=True)
     updated_at     = models.DateTimeField(auto_now=True)
+
+    objects        = TaskManager()
 
 
     def __str__(self):

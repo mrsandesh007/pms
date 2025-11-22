@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from teams.models import Team
 
 User = get_user_model()
 
@@ -21,10 +22,30 @@ PRIORITY_CHOICES =[
 
 ]
 
+
+class ProjectQueryset(models.QuerySet):
+    def active_projects(self):
+        return self.filter(is_active=True)
+    
+    def due_expired_projects(self):
+        return self.filter(due_date__gte=timezone.now())
+
+
+class ProjectManager(models.Manager):
+    def get_queryset(self):
+        return ProjectQueryset(self.model, using=self._db)
+    
+
+    def all(self):
+        return self.get_queryset().active_projects().due_expired_projects()
+    
+
 class Project(models.Model):
     id             = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    owner          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects', default=1)
+    team           = models.ForeignKey(Team, related_name="projects", on_delete=models.CASCADE)
+    owner          = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     name           = models.CharField(max_length=100)
+    client_company = models.CharField(max_length=100, blank=True, null=True)
     description    = models.TextField(blank=True, null=True)
     status         = models.CharField(max_length=20, choices=STATUS_CHOICES, default="To Do")
     priority       = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default="Medium")
@@ -33,6 +54,8 @@ class Project(models.Model):
     is_active      = models.BooleanField(default=True)
     created_at     = models.DateTimeField(auto_now_add=True)
     updated_at     = models.DateTimeField(auto_now=True)
+
+    objects        = ProjectManager()
 
 
     def __str__(self):
